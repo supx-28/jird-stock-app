@@ -6,10 +6,21 @@ export async function fetchStockData() {
 }
 
 export async function updateStock(id, delta) {
-  const res = await fetch(API, {
-    method: "POST",
-    body: JSON.stringify({ id, delta }),
-    headers: { "Content-Type": "application/json" },
-  });
-  return await res.json();
+  const res = await fetch(
+    "https://script.google.com/macros/s/AKfycbyy6wwH6QjMX2dsCGfg-9pbhZTN5jhVzh3xB6VJYQEW_WBgbL7xHGOeD5aPrw4Y3wvzhQ/exec",
+    {
+      redirect: "follow",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id, delta }),
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8",
+      },
+    }
+  );
+
+  const result = await res.json();
+  return result;
 }

@@ -23,38 +23,35 @@ export default function StockTable() {
   };
 
   return (
-    <table className="min-w-full border border-gray-300">
-      <thead>
-        <tr className="bg-gray-100">
-          <th className="p-2">ชื่อสินค้า</th>
-          <th className="p-2">ขนาด</th>
-          <th className="p-2">สต็อก</th>
-          <th className="p-2">จัดการ</th>
-        </tr>
-      </thead>
-      <tbody>
+    <div className="min-h-screen bg-gray-900 text-white p-6 font-sans">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {items.map(item => (
-          <tr key={item.id} className="text-center border-t">
-            <td className="p-2">{item.name}</td>
-            <td className="p-2">{item.size}</td>
-            <td className="p-2">{item.stock}</td>
-            <td className="p-2">
+          <div
+            key={item.id}
+            className="bg-gray-800 p-6 rounded-2xl shadow hover:shadow-lg transition"
+          >
+            <div className="text-lg font-semibold mb-2">{item.name}</div>
+            <div className="text-sm text-gray-400 mb-1">ขนาด: {item.size}</div>
+            <div className="text-white text-xl font-bold mb-4">
+              คงเหลือ: {item.stock}
+            </div>
+            <div className="flex gap-2">
               <button
-                className="px-2 bg-green-500 text-white rounded"
+                className="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg transition"
                 onClick={() => handleChange(item.id, 1)}
               >
-                ＋
+                ＋ เพิ่ม
               </button>
               <button
-                className="px-2 ml-2 bg-red-500 text-white rounded"
+                className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg transition"
                 onClick={() => handleChange(item.id, -1)}
               >
-                －
+                － ลด
               </button>
-            </td>
-          </tr>
+            </div>
+          </div>
         ))}
-      </tbody>
-    </table>
+      </div>
+    </div>
   );
 }
