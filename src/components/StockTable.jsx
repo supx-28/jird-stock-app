@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { fetchStockData, updateStock } from "../api";
+import '../styles/StockTable.css'
 
 export default function StockTable() {
   const [items, setItems] = useState([]);
+  const [loadingId, setLoadingId] = useState(null); // Track which item is being updated
 
   useEffect(() => {
     loadData();
@@ -14,12 +16,14 @@ export default function StockTable() {
   };
 
   const handleChange = async (id, delta) => {
+    setLoadingId(id); // Set loading for the current item
     const updated = await updateStock(id, delta);
     setItems(prev =>
       prev.map(item =>
         item.id === id ? { ...item, stock: updated.stock } : item
       )
     );
+    setLoadingId(null); // Reset loading state
   };
 
   return (
@@ -39,14 +43,24 @@ export default function StockTable() {
               <button
                 className="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg transition"
                 onClick={() => handleChange(item.id, 1)}
+                disabled={loadingId === item.id} // Disable button when loading
               >
-                ＋ เพิ่ม
+                {loadingId === item.id ? (
+                  <div className="spinner"></div>
+                ) : (
+                  "＋ เพิ่ม"
+                )}
               </button>
               <button
                 className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg transition"
                 onClick={() => handleChange(item.id, -1)}
+                disabled={loadingId === item.id} // Disable button when loading
               >
-                － ลด
+                {loadingId === item.id ? (
+                  <div className="spinner"></div>
+                ) : (
+                  "－ ลด"
+                )}
               </button>
             </div>
           </div>
